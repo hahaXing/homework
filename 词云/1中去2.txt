@@ -1,0 +1,18 @@
+# 读取文本1和文本2的内容
+with open('文本1.txt', 'r', encoding='utf-8') as f1:
+    text1 = f1.read()
+with open('文本2.txt', 'r', encoding='utf-8') as f2:
+    text2 = f2.read()
+
+# 使用正则表达式筛选出文本1中的中文字符
+import re
+pattern = re.compile('[\u4e00-\u9fa5]+')
+text1_chinese = pattern.findall(text1)
+
+# 使用set去除文本1中与文本2相同的中文字符
+text1_chinese_unique = list(set(text1_chinese) - set(pattern.findall(text2)))
+
+# 将去除相同中文字符后的文本1写入新的文本文件
+with open('文本1_new.txt', 'w', encoding='utf-8') as f:
+    for word in text1_chinese_unique:
+        f.write(word + '\n')
